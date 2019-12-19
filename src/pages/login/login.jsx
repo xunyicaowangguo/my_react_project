@@ -11,7 +11,7 @@ class Login extends Component {
         event.preventDefault()
         this.props.form.validateFields((err, values) => {
             if (!err) {
-                console.log('Received values of form: ', values)
+                console.log('发送请求: ', values)
             }
         })
     }
