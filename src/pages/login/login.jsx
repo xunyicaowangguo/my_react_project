@@ -1,17 +1,35 @@
 import React, { Component } from 'react'
-import {Form, Icon, Input, Button} from 'antd'
+import {connect} from 'react-redux'
+import {Redirect} from 'react-router-dom'
+import {saveUserInfo} from '../../redux/actions/login_action'
+import {Form, Icon, Input, Button,message} from 'antd'
+import {reqLogin} from '../../api'
 import logo from './img/logo.png'
 import './css/login.less'
 const {Item} = Form
 
 
 class Login extends Component {
-
+    
     handleSubmit = (event) => {
         event.preventDefault()
-        this.props.form.validateFields((err, values) => {
+        this.props.form.validateFields(async(err, values) => {
+            
             if (!err) {
-                console.log('发送请求: ', values)
+                // console.log('发送请求: ', values)
+                let loginResult = await reqLogin(values)
+                console.log(loginResult)
+                const {status,data,msg} = loginResult
+                if(status === 0){
+                    console.log(data)
+                    message.success('登录成功',1)
+                    console.log(this.props.history)
+                    this.props.history.push('/admin')
+                    this.props.saveUserInfo(data)
+                }else{
+                    message.warning(msg,1)
+                }
+                
             }
         })
     }
@@ -30,6 +48,9 @@ class Login extends Component {
     }
 
     render() {
+        if(this.props.userInfo.isLogin){
+            return <Redirect to="/admin"/>
+        }
         const { getFieldDecorator } = this.props.form;
         return (
             <div id="login">
@@ -78,4 +99,7 @@ class Login extends Component {
     }
 }
 
-export default Form.create()(Login);
+export default connect(
+    state => ({userInfo:state.userInfo}),
+    {saveUserInfo}
+)(Form.create()(Login))
