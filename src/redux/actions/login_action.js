@@ -2,6 +2,7 @@ import {SAVE_USERINFO,DELETE_USERINFO} from '../action_types'
 
 // 保存用户信息
 export const saveUserInfo = (value)=>{
+  // console.log(value,1)
   localStorage.setItem('user',JSON.stringify(value.user))
   localStorage.setItem('token',value.token)
   return {type:SAVE_USERINFO,data:value}

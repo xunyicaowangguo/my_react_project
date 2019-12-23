@@ -18,12 +18,11 @@ class Login extends Component {
             if (!err) {
                 // console.log('发送请求: ', values)
                 let loginResult = await reqLogin(values)
-                console.log(loginResult)
+                // console.log(loginResult)
                 const {status,data,msg} = loginResult
                 if(status === 0){
-                    console.log(data)
                     message.success('登录成功',1)
-                    console.log(this.props.history)
+                    // console.log(this.props.history)
                     this.props.history.push('/admin')
                     this.props.saveUserInfo(data)
                 }else{
