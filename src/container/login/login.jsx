@@ -1,14 +1,21 @@
 import React, { Component } from 'react'
 import {connect} from 'react-redux'
-import {Redirect} from 'react-router-dom'
+// import {Redirect} from 'react-router-dom'
 import {saveUserInfo} from '../../redux/actions/login_action'
 import {Form, Icon, Input, Button,message} from 'antd'
+import checkLogin from '../check_login/check_login'
 import {reqLogin} from '../../api'
 import logo from './img/logo.png'
 import './css/login.less'
 const {Item} = Form
 
 
+@connect(
+    state => ({userInfo:state.userInfo}),
+    {saveUserInfo}
+)
+@Form.create()
+@checkLogin
 class Login extends Component {
     
     handleSubmit = (event) => {
@@ -22,7 +29,7 @@ class Login extends Component {
                 const {status,data,msg} = loginResult
                 if(status === 0){
                     message.success('登录成功',1)
-                    // console.log(this.props.history)
+                    console.log(this.props.history)
                     this.props.history.push('/admin')
                     this.props.saveUserInfo(data)
                 }else{
@@ -47,9 +54,9 @@ class Login extends Component {
     }
 
     render() {
-        if(this.props.userInfo.isLogin){
-            return <Redirect to="/admin"/>
-        }
+        // if(this.props.userInfo.isLogin){
+        //     return <Redirect to="/admin"/>
+        // }
         const { getFieldDecorator } = this.props.form;
         return (
             <div id="login">
@@ -97,8 +104,11 @@ class Login extends Component {
         )
     }
 }
+export default Login
 
-export default connect(
-    state => ({userInfo:state.userInfo}),
-    {saveUserInfo}
-)(Form.create()(Login))
+
+
+// export default connect(
+//     state => ({userInfo:state.userInfo}),
+//     {saveUserInfo}
+// )(Form.create()(Login))
