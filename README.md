@@ -23,3 +23,17 @@
 		6.维持用户登录状态
 		7.redux保管已登录用户信息
 		8.退出登录
+
+
+		### day04任务
+		1.装饰器语法的使用
+			(1).需要安装：yarn add @babel/plugin-proposal-decorators
+			(2).需要调整编译器设置
+			(3).需要修改config-overrides.js
+		2.自定义高阶组件check_login用于校验是否登录(难点)
+		3.编写Admin静态布局（使用了antd的Layout组件）
+		4.编写Header静态布局
+		5.完成退出登录
+		6.使用screenfull库完成全屏切换
+		7.完成天气展示（使用jsonp请求百度接口）
+		8.让所有请求统一携带token
