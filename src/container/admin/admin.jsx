@@ -5,10 +5,9 @@ import Header from './header/header'
 import {deleteUserInfo} from '../../redux/actions/login_action'
 import checkLogin from '../check_login/check_login'
 import './css/admin.less'
+import {reqCategory} from '../../api'
+
 const { Footer, Sider, Content } = Layout;
-
-
-
 
 
 @connect(
@@ -18,22 +17,17 @@ const { Footer, Sider, Content } = Layout;
 @checkLogin
 class Admin extends Component {
 
-    // logout=()=>{
-    //     this.props.deleteUserInfo()
-    // }
+   goods = async()=>{
+        console.log(1)
+        let result = await reqCategory()
+        console.log(1,result)
+   }
 
     render() {
-        // if(!this.props.userInfo.isLogin){
-        //     return <Redirect to="/login"/>
-        // }
         return (
-            // <div>
-            //     <span>Hello,{this.props.userInfo.user.username}!</span>
-            //     <button onClick={this.logout}>退出登录</button>
-            // </div>
             <Layout className="admin">
                 <Sider>
-                    <button onClick={this.goods}>获取商品分类数据</button>
+                    <button onClick={this.goods} style={{color:"black"}}>获取商品分类数据</button>
                 </Sider>
                 <Layout>
                     <Header/>

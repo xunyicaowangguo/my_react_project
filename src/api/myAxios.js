@@ -2,6 +2,7 @@ import axios from 'axios'
 import qs from 'querystring'
 import NProgress from 'nprogress'
 import {message} from 'antd'
+import store from '../redux/store'
 import {BASE_URL} from '../config'
 import 'nprogress/nprogress.css'
 
@@ -12,6 +13,10 @@ axios.defaults.baseURL = BASE_URL
 axios.interceptors.request.use((config)=>{
     // console.log(config)
     NProgress.start()
+
+    let {token} = store.getState().userInfo
+    if(token) config.headers.Authorization = 'atguigu_' + token
+
     let {method,data} = config
     if(method.toUpperCase() === 'POST' && data instanceof Object){
         config.data = qs.stringify(data)
