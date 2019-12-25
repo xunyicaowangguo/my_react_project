@@ -5,7 +5,7 @@ import {saveUserInfo} from '../../redux/actions/login_action'
 import {Form, Icon, Input, Button,message} from 'antd'
 import checkLogin from '../check_login/check_login'
 import {reqLogin} from '../../api'
-import logo from './img/logo.png'
+import logo from '../../static/img/logo.png'
 import './css/login.less'
 const {Item} = Form
 
@@ -29,7 +29,7 @@ class Login extends Component {
                 const {status,data,msg} = loginResult
                 if(status === 0){
                     message.success('登录成功',1)
-                    console.log(this.props.history)
+                    // console.log(this.props.history)
                     this.props.history.push('/admin')
                     this.props.saveUserInfo(data)
                 }else{

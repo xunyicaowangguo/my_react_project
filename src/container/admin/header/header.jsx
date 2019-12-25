@@ -1,19 +1,24 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Button,Icon,Modal } from 'antd'
+import {withRouter} from 'react-router-dom'
 import screenfull from 'screenfull'
 import dayjs from 'dayjs'
 import {deleteUserInfo} from '../../../redux/actions/login_action'
-import './header.less'
 import { reqWeatherData } from '../../../api'
+import menuList from '../../../config/menu-config'
+import {saveMenuTitle} from '../../../redux/actions/leftNav_action'
+import './header.less'
+
 
 const {confirm} = Modal
 
 
 @connect(
-    state => ({userInfo:state.userInfo}),
-    {deleteUserInfo}
+    state => ({userInfo:state.userInfo,title:state.menuTitle}),
+    {deleteUserInfo,saveMenuTitle}
 )
+@withRouter
 class Header extends Component {
 
     state={
@@ -53,7 +58,7 @@ class Header extends Component {
     }
 
     componentDidMount(){
-        console.log('componentDidMount');
+        // console.log('componentDidMount');
         screenfull.on('change',()=>{
             let {isFull} = this.state
             this.setState({isFull:!isFull})
@@ -69,9 +74,28 @@ class Header extends Component {
         clearInterval(this.time)
     }
 
+    getTitle = (menuKey)=>{
+		console.log('----redux中没有title，只能靠getTitle计算---------');
+		let title = ''
+		menuList.forEach((menuObj)=>{
+			if(menuObj.children instanceof Array){
+				let result = menuObj.children.find((menuChildrenObj)=>{
+					return menuChildrenObj.key === menuKey
+				})
+				if(result) title = result.title
+			}else{
+				if(menuObj.key === menuKey) title = menuObj.title
+			}
+		})
+		this.props.saveMenuTitle(title)
+		return title
+	}
+
+
     render() {
         const {username} = this.props.userInfo.user
         const {img,weather,temperature} = this.state.weatherData
+        const menuKey = this.props.history.location.pathname.split('/').reverse()[0]
         return (
             <div className="header">
                 <div className="header-top">
@@ -83,7 +107,7 @@ class Header extends Component {
                 </div>
                 <div className="header-bottom">
                     <div className="header-bottom-left">
-                        <span>首页</span>
+                        <span>{this.props.title || this.getTitle(menuKey)}</span>
                     </div>
                     <div className="header-bottom-right">
                         <span>{this.state.date}</span>

@@ -1,8 +1,10 @@
 import {combineReducers} from 'redux'
 import LoginReducer from './login_reducer'
+import leftNavReducer from './leftNav_reducer'
 
 export default combineReducers({
-    userInfo:LoginReducer
+	userInfo:LoginReducer,
+	menuTitle:leftNavReducer
 })
 
 /* 
