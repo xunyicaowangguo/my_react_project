@@ -2,12 +2,12 @@ import React, { Component } from 'react'
 import { Card,Button,Icon,Table,Modal,Form,Input,message,Popconfirm } from 'antd'
 import {connect} from 'react-redux'
 import {reqAddCategory,reqUpdateCategory} from '../../api'
-import {getCategoryListAsync,deleteCategory} from '../../redux/actions/category_action'
+import {getCategoryListAsync} from '../../redux/actions/category_action'
 import {PAGE_SIZE} from '../../config'
 const {Item} = Form
 @connect(
     state => ({categoryList:state.categoryList}),
-    {getCategoryListAsync,deleteCategory}
+    {getCategoryListAsync,}
 )
 @Form.create()
 class Category extends Component {
